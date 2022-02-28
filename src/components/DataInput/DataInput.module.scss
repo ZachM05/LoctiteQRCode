@@ -1,0 +1,30 @@
+.inputForm {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
+
+    .input {
+        resize: none;
+        height: 40px;
+        width: 250px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px black solid;
+        box-sizing: border-box;
+        transition: all 0.25s linear;
+
+        &:hover,
+        &:focus {
+            border: 1px #ff0000 solid;
+            padding: 10px 10px 10px 15px;
+            outline: none;
+        }
+    }
+}
