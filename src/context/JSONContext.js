@@ -2,12 +2,15 @@ import { createContext } from "react";
 
 
 const JSONContext = createContext({
-  count: 1,
-  setCount: () => {},
-  data: {},
+  data: [{
+    id: 0,
+    key: 'key',
+    value: 'value',
+    active: false
+  }],
   setData: () => {},
-  active: true,
-  setActive: () => {}
+  add: () => {}, 
+  del: () => {}
 });
 
 export default JSONContext;
