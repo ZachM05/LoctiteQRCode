@@ -78,18 +78,25 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    p {
+        max-width: 200px;
+        overflow-wrap: break-word;
+    }
 }
 .countForm {
     display: flex;
     flex-direction: column;
     gap: 10px;
     align-items: center;
+    max-height: 30vh;
+    overflow-y: scroll;
     .inputRow {
         display: flex;
         flex-direction: row;
         gap: 5px;
         button {
             width: 40px;
+            
         }
     }
 }

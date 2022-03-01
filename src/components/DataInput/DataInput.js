@@ -4,7 +4,7 @@ import styles from './DataInput.module.scss'
 
 export default function DataInput(props) {
 
-    const {data, setData} = useContext(JSONContext)
+    const { data, setData, del } = useContext(JSONContext)
 
     const keyRef = useRef();
     const valRef = useRef();
@@ -13,27 +13,34 @@ export default function DataInput(props) {
     const [val, setVal] = useState('value');
 
     useEffect(() => {
-        setData({
-            ...data,
-            [props.index]: {
-                [keyVal]: val
-            }
-        })
-    }, [keyVal, val])
+        setData(
+            data.map(obj => {
+                if (obj.id === props.data.id) {
+                    return {
+                        id: props.data.id,
+                        key: keyVal,
+                        value: val,
+                        active: obj.active
+                    }
+                } else return obj
+            })
+        )
+    }, [keyVal, val, data, props.data.id, setData])
 
     return (
         <div className={styles.inputForm}>
-            <input 
-            className={styles.input} 
-            placeholder={'key'}
-            ref={keyRef}
-            onChange={(e) => setKey(e.target.value)}/>
+            <input
+                className={styles.input}
+                placeholder={props.data.key}
+                ref={keyRef}
+                onChange={(e) => setKey(e.target.value)} />
             <p>:</p>
-            <input 
-            className={styles.input} 
-            placeholder={'value'}
-            ref={valRef}
-            onChange={(e) =>setVal(e.target.value)}/>
+            <input
+                className={styles.input}
+                placeholder={props.data.value}
+                ref={valRef}
+                onChange={(e) => setVal(e.target.value)} />
+            <button onClick={() => del(props.data.id)}>x</button>
         </div>
     )
 } 
