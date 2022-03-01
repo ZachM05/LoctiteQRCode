@@ -55,8 +55,9 @@ export default function App() {
         })
         }
       </div>
-      <div>
+      <div className={styles.addNew}>
         <button onClick={() => add()}>Add extra entry</button>
+        {data.length !== Object.keys(parseJSON(data)).length ? <p>Two objects have the same key, ensure that each key is unique</p> : ''}
       </div>
       <div className={styles.qrcode} ref={svgRef}>
         <QRCode
