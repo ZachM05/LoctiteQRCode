@@ -1,13 +1,29 @@
+@import './breakpoints.scss';
+
 .root {
     width: 100%;
     height: 100%;
     margin: 0;
-    display: flex;
-    gap: 15px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
     box-sizing: border-box;
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    grid-template-areas: 
+        'entry qrcode'
+        'info text'
+    ;
+    align-items: center;
+    justify-items: center;
+    row-gap: 15px;
+    column-gap: 75px;
+
+    @include md-max {
+        grid-template-areas: 
+            'entry'
+            'info'
+            'qrcode'
+            'text'
+    }
 
     button {
         border: none;
@@ -42,8 +58,9 @@
         align-items: center;
         gap: 10px;
         text-align: center;
+        grid-area: info;
         p {
-            color: #f00
+            color: #f00;
         }
     }
 }
@@ -58,6 +75,7 @@
     box-sizing: border-box;
     border: 3px #ff0000 solid;
     border-radius: 15px;
+    grid-area: qrcode;
 }
 
 .inputForm {
@@ -90,6 +108,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px;
+    grid-area: text;
     p {
         max-width: 200px;
         overflow-wrap: break-word;
@@ -100,15 +119,21 @@
     flex-direction: column;
     gap: 10px;
     align-items: center;
-    max-height: 30vh;
+    max-height: 50vh;
     overflow-y: scroll;
+    grid-area: entry;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;
     .inputRow {
         display: flex;
         flex-direction: row;
         gap: 5px;
         button {
             width: 40px;
-            
         }
     }
 }
