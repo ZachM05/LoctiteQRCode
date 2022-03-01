@@ -25,7 +25,7 @@ export default function DataInput(props) {
                 } else return obj
             })
         )
-    }, [keyVal, val, data, props.data.id, setData])
+    }, [keyVal, val])
 
     return (
         <div className={styles.inputForm}>
@@ -40,7 +40,7 @@ export default function DataInput(props) {
                 placeholder={props.data.value}
                 ref={valRef}
                 onChange={(e) => setVal(e.target.value)} />
-            <button onClick={() => del(props.data.id)}>x</button>
+            <button disabled={data.length === 1} onClick={() => del(props.data.id)}>x</button>
         </div>
     )
 } 
