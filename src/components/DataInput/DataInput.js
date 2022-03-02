@@ -29,6 +29,11 @@ export default function DataInput(props) {
 
     return (
         <div className={styles.inputForm}>
+            <div className={styles.dragDots}>
+                <p className={styles.dot}>·</p>
+                <p className={styles.dot}>·</p>
+                <p className={styles.dot}>·</p>
+            </div>
             <input
                 className={styles.input}
                 placeholder={props.data.key}

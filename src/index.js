@@ -11,6 +11,15 @@ import Loctite from './Loctite.js';
 import styles from './styles/styles.module.scss';
 import { DataInput } from './components';
 import JSONContext from './context/JSONContext';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+const reorder = (list, startIndex, endIndex) => {
+  const result = Array.from(list);
+  const [removed] = result.splice(startIndex, 1);
+  result.splice(endIndex, 0, removed);
+
+  return result;
+};
 
 function downloadBlob(blob, filename) {
   const objectUrl = URL.createObjectURL(blob);
@@ -36,7 +45,7 @@ const parseJSON = (data) => {
 export default function App() {
   const svgRef = useRef();
 
-  const { data, add } = useContext(JSONContext)
+  const { data, add, setData } = useContext(JSONContext)
 
   const downloadSVG = () => {
     const svgDocument = elementToSVG(svgRef.current)
@@ -45,16 +54,58 @@ export default function App() {
     downloadBlob(blob, `myimage.svg`);
   };
 
+  const onDragEnd = (result) => {
+    // dropped outside the list
+    if (!result.destination) {
+      return;
+    }
+
+    const items = reorder(
+      data,
+      result.source.index,
+      result.destination.index
+    );
+
+    setData([
+      ...items
+    ]);
+  }
+
   return (
     <div className={styles.root}>
-      <div className={styles.countForm}>
-        {data.map((e) => {
+      {/* {data.map((e, i) => {
           return (
             <DataInput data={e} key={e.id} />
           )
         })
-        }
-      </div>
+        } */}
+      <DragDropContext onDragEnd={onDragEnd}>
+        <Droppable droppableId="droppable" >
+          {(provided, snapshot) => {
+            return (
+            <div
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className={styles.countForm}
+            >
+              {data.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
+                  {(provided, snapshot) => (
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                    >
+                      <DataInput data={item} key={item.id}/>
+                    </div>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </div>
+          )}}
+        </Droppable>
+      </DragDropContext>
       <div className={styles.addNew}>
         <button onClick={() => add()}>Add extra entry</button>
         {data.length !== Object.keys(parseJSON(data)).length ? <p>Two objects have the same key, ensure that each key is unique</p> : ''}
@@ -82,4 +133,5 @@ render(
   <JSONContextProvider>
     <App />
   </JSONContextProvider>,
+
   document.getElementById('root'));
